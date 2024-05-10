@@ -74,6 +74,9 @@ class Command:
                 raise ValueError("Invalid offset")
             else:
                 self.params["offset"] = int(params.get("offset"))
+                
+            if not Check.is_natural(int(params.get("interval"))):
+                raise ValueError("Invalid interval")
         elif cmd == "remove" or cmd == "rm":
             if not Check.is_interface(params.get("if")):
                 raise ValueError("Invalid interface")
