@@ -13,6 +13,7 @@ class DetdManager:
     
     @staticmethod
     def add_stream(stream: Stream):
+        print(f"Adding stream: Interface: {stream.interface_name}, Offset: {stream.txoffset}")
         try:
             interface = Interface(stream.interface_name)
             stream_conf = StreamConfiguration(stream.addr, stream.vid, stream.pcp, stream.txoffset)
