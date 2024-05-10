@@ -50,7 +50,9 @@ class DetdManager:
             
         for interface, vid in interfaces_vid:
             commands.append(f"sudo ip link delete {interface}.{vid}")
-        
+            commands.append(f"sudo ip link del link {interface} name {interface}.{vid} type vlan")
+
+        commands.append("sudo systemctl force-reload detd")
         commands.append("sudo systemctl start detd")
         
         for cmd in commands:
