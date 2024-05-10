@@ -111,6 +111,7 @@ class Command:
                 print("Failed to add stream")
         
         if self.cmd == "remove" or self.cmd == "rm":
+            DetdManager.erase_configuration()
             stream = Stream(self.params.get("if"), self.params.get("offset"))
             self.stream_collection.remove(stream)
             DetdManager.remove_stream(stream)
