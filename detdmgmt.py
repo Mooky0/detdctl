@@ -6,6 +6,7 @@ from detd import ServiceProxy
 
 from stream import Stream, StreamCollection
 import subprocess
+import traceback
 
 class DetdManager:
     stream_collection = StreamCollection()
@@ -16,13 +17,18 @@ class DetdManager:
         print(f"Adding stream: Interface: {stream.interface_name}, Offset: {stream.txoffset}")
         try:
             interface = Interface(stream.interface_name)
+            print(f"Interface set up")
             stream_conf = StreamConfiguration(stream.addr, stream.vid, stream.pcp, stream.txoffset)
+            print(f"Stream Configuration done")
             traffic = TrafficSpecification(stream.interval, stream.size)
+            print(f"Traffic Specification done")
             config = Configuration(interface, stream_conf, traffic)
+            print(f"Configuration done")
             DetdManager.proxy.add_talker(config)
+            print(f"Talker added")
             return True
         except Exception as e:
-            print(e)
+            traceback.print_exc()
             return False
             
     
