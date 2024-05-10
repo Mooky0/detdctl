@@ -43,3 +43,6 @@ class StreamCollection:
             if [stream.interface_name, stream.vid] not in interfaces:
                 interfaces.append([stream.interface_name, stream.vid])
         return interfaces
+    
+    def clear(self):
+        self._collection = []

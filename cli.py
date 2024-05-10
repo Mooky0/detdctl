@@ -36,7 +36,7 @@ class CLI:
         
         
 class Command:
-    valid_commands = ["add", "remove", "list", "start", "stop", "clear", "help", "exit", "rm"]
+    valid_commands = ["add", "remove", "list", "start", "stop", "clear", "help", "exit", "rm", "reload", "delete"]
     
     def __init__(self, cmd: str, params: dict) -> None:
         self.stream_collection = StreamCollection()
@@ -91,6 +91,12 @@ class Command:
                 self.params["offset"] = int(params.get("offset"))
         elif cmd == "list":
             pass
+        elif cmd == "reload":
+            pass
+        elif cmd == "exit":
+            pass
+        elif cmd == "delete":
+            pass
         # TODO: Implement other commands     
         else:
             print("Feature not implemented yet.")
@@ -114,5 +120,12 @@ class Command:
             
         if self.cmd == "exit":
             exit()
+            
+        if self.cmd == "reload":
+            DetdManager.reload_configuration()
+        
+        if self.cmd == "delete":
+            DetdManager.erase_configuration()
+            self.stream_collection.clear()
             
             
