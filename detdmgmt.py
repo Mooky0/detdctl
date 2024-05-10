@@ -42,9 +42,14 @@ class DetdManager:
         commands = ["sudo systemctl stop detd",
                     "sudo rmdir /var/tmp/detd/"]
         
-        Interfaces = DetdManager.stream_collection.get_interfaces()
-        for interface in Interfaces:
+        interfaces_vid = DetdManager.stream_collection.get_interfaces_with_vid()
+        interfaces = [i[0] for i in interfaces_vid]
+        interfaces = list(set(interfaces))
+        for interface in interfaces:
             commands.append(f"sudo tc qdisc del dev {interface} root")
+            
+        for interface, vid in interfaces_vid:
+            commands.append(f"sudo ip link delete {interface}.{vid}")
         
         commands.append("sudo systemctl start detd")
         

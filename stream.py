@@ -37,9 +37,9 @@ class StreamCollection:
     def get_streams(self):
         return self._collection
     
-    def get_interfaces(self):
+    def get_interfaces_with_vid(self):
         interfaces = []
         for stream in self._collection:
-            if stream.interface_name not in interfaces:
-                interfaces.append(stream.interface_name)
+            if [stream.interface_name, stream.vid] not in interfaces:
+                interfaces.append([stream.interface_name, stream.vid])
         return interfaces
