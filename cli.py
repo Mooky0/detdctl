@@ -77,6 +77,8 @@ class Command:
                 
             if not Check.is_natural(int(params.get("interval"))):
                 raise ValueError("Invalid interval")
+            else:
+                self.params["interval"] = int(params.get("interval"))
         elif cmd == "remove" or cmd == "rm":
             if not Check.is_interface(params.get("if")):
                 raise ValueError("Invalid interface")
