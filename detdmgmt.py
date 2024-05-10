@@ -32,8 +32,7 @@ class DetdManager:
     @staticmethod
     def reload_configuration():
         # stop detd and delete configuration, then restart detd
-        if not DetdManager.erase_configuration():
-            return False
+        DetdManager.erase_configuration()
         streams = DetdManager.stream_collection.get_streams()
         for stream in streams:
             DetdManager.add_stream(stream)
@@ -54,4 +53,3 @@ class DetdManager:
             if result.returncode != 0:
                 print(f"Command failed: {cmd}")
                 print(result.stderr)
-                return False
