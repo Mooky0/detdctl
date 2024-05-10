@@ -61,6 +61,8 @@ class DetdManager:
 
         commands.append("sudo systemctl force-reload detd")
         commands.append("sudo systemctl start detd")
+        commands.append("detd")
+        commands.append("sudo systemctl status detd")
         
         for cmd in commands:
             print(f"Executing: {cmd}")
@@ -68,3 +70,6 @@ class DetdManager:
             if result.returncode != 0:
                 print(f"Command failed:")
                 print(result.stderr)
+            else:
+                print(f"Command executed successfully: ")
+                print(result.stdout)
