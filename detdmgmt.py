@@ -56,7 +56,8 @@ class DetdManager:
         commands.append("sudo systemctl start detd")
         
         for cmd in commands:
+            print(f"Executing: {cmd}")
             result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
             if result.returncode != 0:
-                print(f"Command failed: {cmd}")
+                print(f"Command failed:")
                 print(result.stderr)
