@@ -21,12 +21,6 @@ import re
 import socket
 import stat
 
-from string import Template
-
-
-Gbps_to_bps = 1000 * 1000 * 1000
-Mbps_to_bps = 1000 * 1000
-
 
 class Check:
 

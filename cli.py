@@ -36,7 +36,7 @@ class CLI:
         
         
 class Command:
-    valid_commands = ["add", "remove", "list", "start", "stop", "clear", "help", "exit", "rm", "reload", "delete"]
+    valid_commands = ["add", "remove", "list", "clear", "help", "exit", "rm", "reload"]
     
     def __init__(self, cmd: str, params: dict) -> None:
         self.stream_collection = StreamCollection()
@@ -95,11 +95,12 @@ class Command:
             pass
         elif cmd == "exit":
             pass
-        elif cmd == "delete":
+        elif cmd == "clear":
             pass
-        # TODO: Implement other commands     
+        elif cmd == "help":
+            pass
         else:
-            print("Feature not implemented yet.")
+            print("Unrecognized command")
         
 
     def execute(self):
@@ -125,8 +126,22 @@ class Command:
         if self.cmd == "reload":
             DetdManager.reload_configuration()
         
-        if self.cmd == "delete":
-            DetdManager.erase_configuration()
-            self.stream_collection.clear()
+        if self.cmd == "clear":
+            print("Are you sure you want to clear all streams? (y/n) ")
+            inp = input()
+            if inp == "y":
+                DetdManager.erase_configuration()
+                self.stream_collection.clear()
+            else:
+                print("Aborted")
             
+        if self.cmd == "help":
+            print("Available commands: add, remove, list, clear, help, exit, reload")
+            print("add --if <interface> --vid <vid> --pcp <pcp> --addr <address> --size <size> --offset <offset> --interval <interval>")
+            print("remove --if <interface> --offset <offset>")
+            print("list")
+            print("clear")
+            print("help")
+            print("exit")
+            print("reload")
             
