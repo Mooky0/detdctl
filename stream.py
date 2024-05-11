@@ -46,3 +46,15 @@ class StreamCollection:
     
     def clear(self):
         self._collection = []
+        
+    def save(self):
+        with open("streams.txt", "w") as f:
+            for stream in self._collection:
+                f.write(f"{stream.interface_name},{stream.interval},{stream.size},{stream.txoffset},{stream.addr},{stream.vid},{stream.pcp}\n")
+                
+    def load(self, file: str):
+        self.clear()
+        with open(file, "r") as f:
+            for line in f:
+                data = line.strip().split(",")
+                self.add(Stream(data[0], int(data[3]), int(data[1]), int(data[2]), data[4], int(data[5]), int(data[6])))

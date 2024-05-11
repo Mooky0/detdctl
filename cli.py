@@ -3,6 +3,7 @@ from stream import Stream, StreamCollection
 from detdmgmt import DetdManager
 
 import traceback
+import os
 
 class CLI:
 
@@ -27,7 +28,10 @@ class CLI:
         while i < len(tokens):
             if tokens[i].startswith("--"):
                 key = tokens[i][2:]
-                value = tokens[i + 1]
+                try:    
+                    value = tokens[i + 1]
+                except IndexError:
+                    value = True
                 params[key] = value
                 i += 2
             else:
@@ -36,7 +40,7 @@ class CLI:
         
         
 class Command:
-    valid_commands = ["add", "remove", "list", "clear", "help", "exit", "rm", "reload"]
+    valid_commands = ["add", "remove", "list", "clear", "help", "exit", "rm", "reload", "load"]
     
     def __init__(self, cmd: str, params: dict) -> None:
         self.stream_collection = StreamCollection()
@@ -94,11 +98,22 @@ class Command:
         elif cmd == "reload":
             pass
         elif cmd == "exit":
-            pass
+            self.params["nosave"] = params.get("nosave")
         elif cmd == "clear":
             pass
         elif cmd == "help":
             pass
+        elif cmd == "load":
+            defalut_file = "streams.txt"
+            file = params.get("file")
+            if file is None:
+                file = defalut_file
+            if not file.startswith("/"):
+                file = f"{os.getcwd()}/{file}"
+            if not Check.is_valid_file(file):
+                raise ValueError("Invalid file")
+            self.params["file"] = file
+            
         else:
             print("Unrecognized command")
         
@@ -121,6 +136,8 @@ class Command:
             self.stream_collection.list()
             
         if self.cmd == "exit":
+            if self.params.get("nosave") is not True:
+                self.stream_collection.save()
             exit()
             
         if self.cmd == "reload":
@@ -135,6 +152,9 @@ class Command:
             else:
                 print("Aborted")
             
+        if self.cmd == "load":
+            self.stream_collection.load(self.params.get("file"))
+        
         if self.cmd == "help":
             print("Available commands: add, remove, list, clear, help, exit, reload")
             print("add --if <interface> --vid <vid> --pcp <pcp> --addr <address> --size <size> --offset <offset> --interval <interval>")
@@ -142,6 +162,7 @@ class Command:
             print("list")
             print("clear")
             print("help")
-            print("exit")
+            print("exit --nosave")
             print("reload")
+            print("load --file <filename>")
             
