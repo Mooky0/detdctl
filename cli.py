@@ -40,7 +40,7 @@ class CLI:
         
         
 class Command:
-    valid_commands = ["add", "remove", "list", "clear", "help", "exit", "rm", "reload", "load"]
+    valid_commands = ["add", "remove", "list", "clear", "help", "exit", "rm", "reload", "load", "ls"]
     
     def __init__(self, cmd: str, params: dict) -> None:
         self.stream_collection = StreamCollection()
@@ -93,7 +93,7 @@ class Command:
                 raise ValueError("Invalid offset")
             else:
                 self.params["offset"] = int(params.get("offset"))
-        elif cmd == "list":
+        elif cmd == "list" or cmd == "ls":
             pass
         elif cmd == "reload":
             pass
@@ -132,7 +132,7 @@ class Command:
             self.stream_collection.remove(stream)
             DetdManager.remove_stream(stream)
         
-        if self.cmd == "list":
+        if self.cmd == "list" or self.cmd == "ls":
             self.stream_collection.list()
             
         if self.cmd == "exit":
@@ -153,13 +153,14 @@ class Command:
                 print("Aborted")
             
         if self.cmd == "load":
+            print(f"Loading streams from {self.params.get('file')}")
             self.stream_collection.load(self.params.get("file"))
         
         if self.cmd == "help":
             print("Available commands: add, remove, list, clear, help, exit, reload")
             print("add --if <interface> --vid <vid> --pcp <pcp> --addr <address> --size <size> --offset <offset> --interval <interval>")
-            print("remove --if <interface> --offset <offset>")
-            print("list")
+            print("[remove/rm] --if <interface> --offset <offset>")
+            print("[list/ls]")
             print("clear")
             print("help")
             print("exit --nosave")
